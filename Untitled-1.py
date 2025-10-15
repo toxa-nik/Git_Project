@@ -1,0 +1,1 @@
+print(len("%pip install -q beautifulsoup4 requests schedule pssssssssssssssss"))
