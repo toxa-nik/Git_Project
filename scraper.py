@@ -230,10 +230,8 @@ def scrape_books(
         big_data_json = json.dumps(big_data, ensure_ascii=False, indent=2)
 
     if is_save:
-        script_dir = Path.cwd()
-        artifacts_dir = (
-            script_dir.parent / "artifacts"
-        )  # Изменить для скрипта на /"artifacts" и проверить обязательно!!!
+        artifacts_dir = Path("artifacts")
+        artifacts_dir.mkdir(exist_ok=True)
         file_path = artifacts_dir / "books_data.txt"
         with open(file_path, "w", encoding="utf-8") as f:
             if return_json:
@@ -246,9 +244,10 @@ def scrape_books(
     scrape_books_execution_time = scrape_books_end_time - scrape_books_start_time
     print(f"Время парсинга книг: {round(scrape_books_execution_time, 2)} сек.")
     print(f"Обработано книг: {len(big_data)}")
-    print(
-        f"Средняя скорость: {len(big_data) / scrape_books_execution_time:.2f} книг/сек"
-    )
+
+    min_execution_time = 0.01
+    effective_time = max(scrape_books_execution_time, min_execution_time)
+    print(f"Средняя скорость: {len(big_data) / effective_time:.2f} книг/сек")
 
     if return_json:
         return big_data_json
